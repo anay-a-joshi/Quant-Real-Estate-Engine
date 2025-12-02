@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Real Estate: A Fixed-Income Asset</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0f172a;
+      --card: #111827;
+      --accent: #ec4899;
+      --accent-soft: rgba(236, 72, 153, 0.16);
+      --accent-2: #38bdf8;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.6);
+      --radius-xl: 1.5rem;
+      --radius-lg: 1rem;
+      --transition-fast: 180ms ease-out;
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1d253a 0, #050816 45%);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* 3D intro overlay */
+    #intro-3d {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      perspective: 900px;
+      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+    }
+
+    #intro-3d.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .intro-words {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .intro-word {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f9fafb;
+      opacity: 0;
+      transform: translateY(-80px) rotateX(60deg) scale(0.9);
+      animation: wordDrop 0.9s forwards;
+      text-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .intro-word:nth-child(1) { animation-delay: 0.1s; }
+    .intro-word:nth-child(2) { animation-delay: 0.3s; }
+    .intro-word:nth-child(3) { animation-delay: 0.5s; }
+    .intro-word:nth-child(4) { animation-delay: 0.7s; }
+    .intro-word:nth-child(5) { animation-delay: 0.9s; }
+
+    @keyframes wordDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-80px) rotateX(60deg) scale(0.9);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(10px) rotateX(-10deg) scale(1.03);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg) scale(1);
+      }
+    }
+
+    .intro-sub {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    /* Main header + title */
+    header.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 8, 22, 0.96),
+        rgba(15, 23, 42, 0.94)
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    header.top-nav.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.9rem 1.3rem 0.5rem;
+    }
+
+    .site-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .site-title-main {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .logo-orb {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #e879f9, #ec4899);
+      box-shadow: 0 0 18px rgba(236, 72, 153, 0.85);
+    }
+
+    .site-title-text h1 {
+      font-size: clamp(1.9rem, 3vw, 2.4rem);
+      margin: 0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .site-title-text p {
+      margin: 0.1rem 0 0;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    /* Tab navigation bar – always horizontal */
+    .tab-nav-wrapper {
+      width: 100%;
+      margin-top: 0.7rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.24);
+    }
+
+    .tab-nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.45rem 1.3rem 0.8rem;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0.45rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tab-nav::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 999px;
+    }
+
+    .tab-link {
+      flex: 0 0 auto;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-muted);
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .tab-link span.badge {
+      font-size: 0.7rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .tab-link.active {
+      color: #f9fafb;
+      border-color: rgba(236, 72, 153, 0.8);
+      background: radial-gradient(circle at top left, #1d283a, #020617);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.6rem 1.3rem 3rem;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    main.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Panels */
+    .tab-panel {
+      display: none;
+      margin-top: 1.2rem;
+      padding: 1.8rem 1.5rem 2.1rem;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, #111827, #020617 55%);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - 220px); /* helps avoid weird big footer gap */
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(
+        circle at top right,
+        rgba(236, 72, 153, 0.12),
+        transparent 55%
+      );
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-2);
+      font-weight: 500;
+    }
+
+    .slide-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .slide-badge span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #a855f7;
+    }
+
+    p {
+      margin: 0.25rem 0 0.55rem;
+      color: var(--text-main);
+      font-size: 0.92rem;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    ul {
+      margin: 0.4rem 0 0.25rem 1.2rem;
+      padding: 0;
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.35rem;
+    }
+
+    .pill {
+      font-size: 0.76rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .pill span.bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.4rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.7)
+      );
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 1rem 1rem 1.1rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+      font-weight: 500;
+    }
+
+    .data-table {
+      margin-top: 0.6rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+      background: radial-gradient(circle at top left, #020617, #020617);
+    }
+
+    .data-row {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .data-row:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .data-row:nth-child(even) {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .data-label {
+      color: var(--text-muted);
+    }
+
+    .data-value {
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .data-row.highlight {
+      background: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    .timeline {
+      margin-top: 0.5rem;
+      border-left: 2px solid rgba(148, 163, 184, 0.5);
+      padding-left: 1rem;
+    }
+
+    .timeline-item {
+      margin-bottom: 0.7rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.15rem;
+      top: 0.18rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #38bdf8, #0ea5e9);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+    }
+
+    .timeline-year {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-2);
+      text-transform: uppercase;
+    }
+
+    .timeline-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .flow-steps {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    .flow-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: start;
+    }
+
+    .flow-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #f472b6, #ec4899);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f172a;
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.45);
+    }
+
+    .flow-content-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .flow-content-text {
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    /* Image rows */
+    .image-row {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .image-card {
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.85);
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-card figcaption {
+      padding: 0.55rem 0.8rem 0.7rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-note {
+      margin-top: 1.1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-note span {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding-inline: 1rem;
+      }
+
+      .tab-panel {
+        padding-inline: 1.2rem;
+        min-height: calc(100vh - 240px);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .site-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 3D INTRO -->
+  <div id="intro-3d">
+    <div class="intro-words">
+      <span class="intro-word">Real</span>
+      <span class="intro-word">Estate:</span>
+      <span class="intro-word">A</span>
+      <span class="intro-word">Fixed-Income</span>
+      <span class="intro-word">Asset</span>
+    </div>
+    <div class="intro-sub">
+      FIN 7037 · Fixed Income Term Project
+    </div>
+  </div>
+
+  <!-- HEADER + TABS -->
+  <header class="top-nav">
+    <div class="header-inner">
+      <div class="site-title-row">
+        <div class="site-title-main">
+          <div class="logo-orb"></div>
+          <div class="site-title-text">
+            <h1>Real Estate: A Fixed-Income Asset</h1>
+            <p>FIN 7037 · Fixed Income Term Project</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-nav-wrapper">
+      <div class="tab-nav">
+        <button class="tab-link active" data-tab="intro">
+          <span class="badge">Start</span> Intro
+        </button>
+        <button class="tab-link" data-tab="q1">
+          <span class="badge">Q1</span> Property Choice
+        </button>
+        <button class="tab-link" data-tab="q2">
+          <span class="badge">Q2</span> Mortgage & Cash Flows
+        </button>
+        <button class="tab-link" data-tab="q3">
+          <span class="badge">Q3</span> Returns vs Stocks/Bonds
+        </button>
+        <button class="tab-link" data-tab="q4">
+          <span class="badge">Q4</span> Fannie & Freddie / MBS
+        </button>
+        <button class="tab-link" data-tab="q5">
+          <span class="badge">Q5</span> Treasury Rates & Spreads
+        </button>
+        <button class="tab-link" data-tab="q6">
+          <span class="badge">Q6</span> Mortgage Spreads & Regression
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- INTRO TAB -->
+    <section class="tab-panel active" data-tab="intro">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Fixed-Income Term Project</div>
+          <h2 class="section-title">Project Overview</h2>
+          <p class="tagline">
+            Instead of a traditional slide deck, this website presents my term project as an interactive,
+            question-by-question walkthrough.
+          </p>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          Intro
+        </div>
+      </div>
+
+      <p>
+        The goal of this project is to treat a residential property investment as a fixed-income style asset and
+        compare it to stocks and long-term bonds. I:
+      </p>
+
+      <ul>
+        <li>Select a specific property in Tampa, Florida and justify the choice.</li>
+        <li>Design and price a realistic mortgage, including closing and ongoing costs.</li>
+        <li>Estimate cash flows, resale value, and a bond-equivalent return.</li>
+        <li>Explain the roles of Fannie Mae and Freddie Mac and how mortgage-backed securities work.</li>
+        <li>Analyze U.S. Treasury yields and spreads from 2005–2025 and link them to mortgage markets.</li>
+        <li>Use regression to connect mortgage spreads to the Treasury yield curve.</li>
+      </ul>
+
+      <div class="pill-row">
+        <div class="pill">
+          <span class="bullet"></span>
+          Tampa single-family home, $400,000
+        </div>
+        <div class="pill">
+          <span class="bullet"></span>
+          30-year fixed-rate mortgage at 7.25%
+        </div>
+        <div class="pill">
+          <span class="bullet"></span>
+          Cash-flow & bond-style return analysis
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="images/tampa-skyline.jpg" alt="Tampa skyline" loading="lazy" />
+          <figcaption>Tampa, Florida - the metro area for the selected property.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="images/real-estate.jpg" alt="Real estate investment concept" loading="lazy" />
+          <figcaption>Residential real estate viewed through a fixed-income, cash-flow lens.</figcaption>
+        </figure>
+      </div>
+
+      <p class="footer-note">
+        Use the tabs above (Q1–Q6) to jump directly to each question’s answer —
+        <span>like slides, but on the web</span>.
+      </p>
+    </section>
+
+    <!-- Q1 TAB -->
+    <section class="tab-panel" data-tab="q1">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 1</div>
+          <h2 class="section-title">Property Selection & Justification</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          Tampa · $400k SFH
+        </div>
+      </div>
+
+      <p>
+        I select a <strong>single-family home in Tampa, Florida</strong> with a purchase price of
+        <strong>$400,000</strong>. The property is in a residential neighborhood with good schools, access to jobs, and
+        strong rental demand.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Why Tampa?</div>
+          <ul>
+            <li>One of the faster-growing metropolitan areas in Florida.</li>
+            <li>Strong labor market and steady population inflows.</li>
+            <li>Attractive climate and lifestyle support long-run housing demand.</li>
+            <li>Home prices have historically outperformed the national average.</li>
+          </ul>
+          <p class="tagline">
+            These fundamentals support both rent growth and long-run appreciation potential.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Why a Single-Family Home?</div>
+          <ul>
+            <li>Offers more privacy and space than condos, attracting families and long-term renters.</li>
+            <li>Typically exhibits higher appreciation than smaller units in similar areas.</li>
+            <li>Fewer HOA constraints and surprise assessments than many condominiums.</li>
+            <li>Fits naturally within the project’s $200,000–$500,000 price range.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1rem;">
+        <div class="card-label">Affordability & Growth</div>
+        <p>
+          A $400,000 price point is high enough to participate in Tampa’s appreciation but still attainable with a 20%
+          down payment. Historical data for Tampa show significant price increases over the past decade, suggesting that
+          long-term owners can build equity through both principal paydown and appreciation.
+        </p>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="images/single-family-home.jpg" alt="Single-family home in Tampa" loading="lazy" />
+          <figcaption>Illustrative single-family home similar to the type analyzed in this project.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="images/image.jpg" alt="Suburban neighborhood" loading="lazy" />
+          <figcaption>Neighborhood characteristics: schools, jobs, and amenities support demand.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Q2 TAB -->
+    <section class="tab-panel" data-tab="q2">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 2</div>
+          <h2 class="section-title">Mortgage Choice & Cash-Flow Model</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          30-year FRM · Cash Flows
+        </div>
+      </div>
+
+      <p>
+        I compare different mortgage structures and select a <strong>30-year fixed-rate mortgage (FRM)</strong> at
+        <strong>7.25%</strong> with a 20% down payment. This choice emphasizes payment stability over minimizing total
+        interest.
+      </p>
+
+      <div class="data-table">
+        <div class="data-row">
+          <div class="data-label">Property Price</div>
+          <div class="data-value">$400,000</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Down Payment (20%)</div>
+          <div class="data-value">$80,000</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Loan Amount</div>
+          <div class="data-value">$320,000</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Term</div>
+          <div class="data-value">30 years</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Interest Rate</div>
+          <div class="data-value">7.25%</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Monthly Principal &amp; Interest</div>
+          <div class="data-value"> $2,183</div>
+        </div>
+        <div class="data-row highlight">
+          <div class="data-label">Total Interest over Loan Life</div>
+          <div class="data-value"> $465,867</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="card-label">Closing Costs</div>
+          <ul>
+            <li>Loan origination (1% of loan):  $3,200</li>
+            <li>Title insurance:  $1,500</li>
+            <li>Appraisal:  $600</li>
+            <li>Recording fees:  $300</li>
+            <li>Prepaid taxes &amp; insurance escrow:  $2,500</li>
+          </ul>
+          <p class="tagline">
+            <strong>Total estimated closing costs:  $8,100.</strong>
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Ongoing Expenses &amp; Rent</div>
+          <ul>
+            <li>Property taxes (1.2% of value):  $400 / month</li>
+            <li>Maintenance (1% annually):  $333 / month</li>
+            <li>Homeowner’s insurance:  $183 / month</li>
+          </ul>
+          <p class="tagline">
+            Non-mortgage housing costs:  <strong>$916.67 per month.</strong>
+          </p>
+          <ul>
+            <li>Estimated gross rent:  $3,500 / month</li>
+            <li>Vacancy &amp; repairs adjustment: −$200 / month</li>
+            <li>Net effective rent:  $3,300 / month</li>
+          </ul>
+          <p class="tagline">
+            After mortgage and operating costs, net cash flow is roughly <strong> $200 per month.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="images/mortgage-document.jpg" alt="Mortgage documents" loading="lazy" />
+          <figcaption>Mortgage paperwork and closing costs associated with financing the property.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="images/rental-agreement.jpg" alt="Rental agreement" loading="lazy" />
+          <figcaption>Rental contracts and tenant income drive the cash-flow side of the analysis.</figcaption>
+        </figure>
+      </div>
+
+      <p class="muted" style="margin-top: 0.8rem;">
+        In a volatile rate environment, the 30-year FRM provides predictable payments and protects the homeowner from
+        future interest-rate spikes, even though it implies higher total interest than a shorter-term loan.
+      </p>
+    </section>
+
+    <!-- Q3 TAB -->
+    <section class="tab-panel" data-tab="q3">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 3</div>
+          <h2 class="section-title">Resale Value & Bond-Style Return</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          Real Estate vs Stocks & Bonds
+        </div>
+      </div>
+
+      <p>
+        I treat the property as a fixed-income style investment by combining the initial cash outflows (down payment and
+        closing costs), the net rental income, and the future resale price into a stream of cash flows, and then compute
+        a bond-equivalent internal rate of return (IRR).
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Resale Value Assumption</div>
+          <p>
+            I assume a conservative long-run home price appreciation rate (for example, around 3–4% per year over 30
+            years). Under this assumption, the $400,000 Tampa home is worth substantially more at the end of the
+            mortgage term.
+          </p>
+          <p class="tagline">
+            Combined with principal paydown, this creates meaningful homeowner equity by year 30.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Bond-Equivalent Return</div>
+          <p>Interpreting:</p>
+          <ul>
+            <li>Down payment + closing costs as the initial “bond price,”</li>
+            <li>Net monthly cash flows as coupon payments, and</li>
+            <li>Net equity from resale as the terminal value,</li>
+          </ul>
+          <p>
+            the implied bond-style IRR is approximately in the
+            <strong>high single-digit range (around 9–10% annually)</strong>, depending on the exact appreciation and
+            rent growth assumptions.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="card-label">Comparison with Stocks</div>
+          <p>
+            Long-run stock market returns (e.g., S&amp;P 500) are historically around 8–10% per year but with high
+            volatility and no direct consumption benefit. The real estate investment’s estimated IRR is competitive with
+            equities, though it is less diversified and less liquid.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-label">Comparison with Long-Term Bonds</div>
+          <p>
+            Over the same horizon, long-term Treasuries and investment-grade bonds usually offer lower expected returns
+            than equities. The property’s projected IRR appears higher than long-term bond yields, but with additional
+            risks (local housing cycles, maintenance shocks, vacancy) and the leverage embedded in the mortgage.
+          </p>
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="images/stock-market.jpg" alt="Stock market chart" loading="lazy" />
+          <figcaption>Comparing real estate IRR to long-run equity market returns.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="images/bond-market.jpg" alt="Bond market graph" loading="lazy" />
+          <figcaption>Long-term bonds offer lower returns but with different risk and liquidity profiles.</figcaption>
+        </figure>
+      </div>
+
+      <p class="muted" style="margin-top: 0.8rem;">
+        Overall, the Tampa house behaves like a leveraged bond with embedded options (prepayment, default, and sale
+        timing). Its expected return can exceed that of long-term bonds while remaining competitive with equity
+        returns, provided the rental market stays healthy and the property is well managed.
+      </p>
+    </section>
+
+    <!-- Q4 TAB -->
+    <section class="tab-panel" data-tab="q4">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 4</div>
+          <h2 class="section-title">Fannie Mae, Freddie Mac & Mortgage-Backed Securities</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          GSEs & MBS
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Who Are Fannie Mae & Freddie Mac?</div>
+          <p>
+            <strong>Fannie Mae</strong> (1938) and <strong>Freddie Mac</strong> (1970) are government-sponsored
+            enterprises (GSEs) whose mission is to provide liquidity, stability, and affordability to the U.S. housing
+            market.
+          </p>
+          <p>
+            They do not typically originate mortgages themselves. Instead, they <strong>buy conforming loans</strong>
+            from lenders, guarantee them, and bundle them into <strong>mortgage-backed securities (MBS)</strong>.
+          </p>
+
+          <div class="card-label" style="margin-top: 0.7rem;">How MBS Are Created</div>
+          <ul>
+            <li>Banks originate conforming residential mortgages.</li>
+            <li>Fannie or Freddie purchases eligible loans.</li>
+            <li>Loans are pooled into a diversified portfolio.</li>
+            <li>The pool is securitized into MBS and sold to investors.</li>
+            <li>Investors receive interest and principal from the underlying mortgages.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Risks for MBS Investors</div>
+          <ul>
+            <li><strong>Prepayment risk</strong> – borrowers refinance or prepay when rates fall.</li>
+            <li><strong>Extension risk</strong> – prepayments slow when rates rise, extending effective duration.</li>
+            <li><strong>Interest-rate risk</strong> – changes in rates move MBS values up or down.</li>
+            <li><strong>Credit risk</strong> – some borrowers may default on their mortgages.</li>
+            <li><strong>Liquidity risk</strong> – complex or lower-rated MBS can be harder to trade quickly.</li>
+          </ul>
+
+          <div class="card-label" style="margin-top: 0.7rem;">Role in the 2007–2009 Crisis</div>
+          <p>
+            Before the financial crisis, Fannie Mae and Freddie Mac guaranteed and invested in large portfolios of
+            mortgages and MBS linked to a rapidly inflating housing market. When home prices reversed and defaults
+            increased, they experienced heavy losses.
+          </p>
+          <p>
+            In 2008, both GSEs were placed into federal conservatorship. Since then, underwriting standards have
+            tightened, capital rules have been strengthened, and their activities are more closely supervised.
+          </p>
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?mortgage,backed,securities" alt="Mortgage-backed securities" loading="lazy" />
+          <figcaption>Securitization transforms pools of mortgages into tradable MBS for investors.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?financial,crisis" alt="Financial crisis" loading="lazy" />
+          <figcaption>The 2007–2009 crisis highlighted the risks of highly leveraged housing finance.</figcaption>
+        </figure>
+      </div>
+
+      <p class="muted" style="margin-top: 0.8rem;">
+        Today, Fannie Mae and Freddie Mac still guarantee a large share of U.S. mortgages. Their guarantees help keep
+        mortgage rates lower and the market more liquid, while also concentrating housing-finance risk in two
+        government-linked institutions.
+      </p>
+    </section>
+
+    <!-- Q5 TAB -->
+    <section class="tab-panel" data-tab="q5">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 5</div>
+          <h2 class="section-title">Treasury Rates, Spreads & Housing</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          1Y, 10Y & 30Y (2005–2025)
+        </div>
+      </div>
+
+      <p>
+        Using FRED data from January 2005 to June 2025 for the 1-year, 10-year, and 30-year Treasury constant-maturity
+        rates, I identify several phases in the interest-rate environment.
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2005–2007</div>
+          <div class="timeline-text">
+            Short-term rates rose toward 5% as the Fed tightened policy before the Global Financial Crisis. The yield
+            curve flattened and inverted, signaling concerns about a slowdown.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2008–2015</div>
+          <div class="timeline-text">
+            Post-crisis, policy rates fell near zero and remained extremely low. Long-term yields also dropped,
+            supported by quantitative easing and safe-haven demand.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2016–2019</div>
+          <div class="timeline-text">
+            A normalization phase: the Fed gradually raised rates, and the curve again flattened as short-term yields
+            moved closer to long-term yields.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-text">
+            The pandemic shock pushed yields to record lows. The 10-year briefly traded near 0.5%, while the 1-year
+            hovered near zero under emergency easing.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2022–2023</div>
+          <div class="timeline-text">
+            High inflation prompted aggressive Fed hikes. Yields rose sharply across the curve, and inversions of
+            intermediate spreads reached historic depths.
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Mid-2025</div>
+          <div class="timeline-text">
+            Yields partially normalized: the 1-year around 4%, the 10-year around 4.2%, and the 30-year near 4.8%,
+            leaving a flatter but still upward-sloping curve.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="card-label">Spreads in September 2020</div>
+          <p class="tagline">Approximate yields:</p>
+          <ul>
+            <li>1-year:  0.12%</li>
+            <li>10-year:  0.69%</li>
+            <li>30-year:  1.46%</li>
+          </ul>
+          <p class="tagline">Implied spreads:</p>
+          <ul>
+            <li>10Y − 1Y:  +0.57%</li>
+            <li>30Y − 1Y:  +1.34%</li>
+          </ul>
+          <p class="tagline">
+            A steep, positive curve following aggressive easing, consistent with expectations of recovery and higher
+            future inflation.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Spreads in June 2025</div>
+          <p class="tagline">Approximate yields:</p>
+          <ul>
+            <li>1-year:  3.96%</li>
+            <li>10-year:  4.24%</li>
+            <li>30-year:  4.78%</li>
+          </ul>
+          <p class="tagline">Implied spreads:</p>
+          <ul>
+            <li>10Y − 1Y:  +0.28%</li>
+            <li>30Y − 1Y:  +0.82%</li>
+          </ul>
+          <p class="tagline">
+            A much flatter curve after an aggressive hiking cycle, with markets expecting inflation to moderate and the
+            Fed to be near the end of tightening.
+          </p>
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?treasury,bonds" alt="Treasury bonds" loading="lazy" />
+          <figcaption>U.S. Treasury yields anchor broader interest-rate conditions, including mortgages.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?housing,market" alt="Housing market" loading="lazy" />
+          <figcaption>Higher mortgage rates feed through to affordability and housing prices.</figcaption>
+        </figure>
+      </div>
+
+      <h3 style="margin-top: 1.1rem; font-size: 1rem;">Implications for Mortgage Rates & Housing Prices</h3>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-icon">1</div>
+          <div>
+            <div class="flow-content-title">Q4 2025 Mortgage Rate Outlook</div>
+            <div class="flow-content-text">
+              With flatter spreads, moderating inflation, and signs of slower growth, it is more likely that mortgage
+              rates stabilize or drift slightly lower rather than rise sharply again in Q4 2025.
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon">2</div>
+          <div>
+            <div class="flow-content-title">Impact of Higher Rates on Housing</div>
+            <div class="flow-content-text">
+              If mortgage rates did move significantly higher, affordability would worsen, buyer demand would weaken,
+              and sellers might need to cut prices or offer concessions. Rate-sensitive segments, like first-time
+              buyers, would be hit hardest.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top: 0.8rem;">
+        Because mortgage rates are closely benchmarked to long-term Treasury yields plus a spread, the shape and level
+        of the yield curve directly influence housing affordability, construction, and home prices.
+      </p>
+    </section>
+
+    <!-- Q6 TAB -->
+    <section class="tab-panel" data-tab="q6">
+      <div class="section-header">
+        <div>
+          <div class="section-kicker">Question 6</div>
+          <h2 class="section-title">Mortgage Spreads & Regression on Treasury Spreads</h2>
+        </div>
+        <div class="slide-badge">
+          <span class="dot"></span>
+          ARM vs Fixed · Yield Curve
+        </div>
+      </div>
+
+      <p>
+        For Question 6, I use FRED data from January 2005 to June 2025 on:
+      </p>
+      <ul>
+        <li>5/1-year adjustable-rate mortgage (ARM) rates,</li>
+        <li>15-year fixed mortgage rates, and</li>
+        <li>30-year fixed mortgage rates.</li>
+      </ul>
+
+      <p>
+        From these series, I construct two mortgage spreads:
+      </p>
+      <ul>
+        <li><strong>Spread 1:</strong> 15-year fixed − 5/1 ARM</li>
+        <li><strong>Spread 2:</strong> 30-year fixed − 15-year fixed</li>
+      </ul>
+
+      <p>
+        I then regress each spread on two Treasury yield-curve spreads:
+      </p>
+      <ul>
+        <li><strong>ts_10_1:</strong> 10-year − 1-year Treasury yield</li>
+        <li><strong>ts_30_1:</strong> 30-year − 1-year Treasury yield</li>
+      </ul>
+
+      <div class="grid-2" style="margin-top: 1.1rem;">
+        <div class="card">
+          <div class="card-label">Regression 1: (15Y − 5/1 ARM)</div>
+          <p>
+            The first regression relates the spread between the 15-year fixed mortgage rate and the 5/1 ARM rate to the
+            two Treasury spreads. The coefficients on the Treasury spreads are statistically meaningful but modest, and
+            the R-squared is relatively low.
+          </p>
+          <p class="tagline">
+            Interpretation: only a small share of this mortgage spread is explained by the slope of the yield curve
+            alone. Bank funding costs, prepayment behavior, and product-specific risk premiums also play large roles.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Regression 2: (30Y − 15Y)</div>
+          <p>
+            The second regression models the spread between the 30-year and 15-year fixed mortgage rates using the same
+            Treasury spreads. Here, the coefficients are larger in magnitude and the R-squared is higher than in
+            Regression 1.
+          </p>
+          <p class="tagline">
+            Interpretation: the extra premium for extending from a 15-year to a 30-year fixed mortgage is more tightly
+            linked to the long-end slope of the Treasury curve, reflecting compensation for additional duration and
+            prepayment uncertainty.
+          </p>
+        </div>
+      </div>
+
+      <div class="image-row">
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?data,analysis" alt="Data analysis" loading="lazy" />
+          <figcaption>Regression links mortgage spreads to the shape of the Treasury yield curve.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="https://source.unsplash.com/featured/?analytics,chart" alt="Analytics chart" loading="lazy" />
+          <figcaption>Mortgage pricing reflects both rate expectations and housing-market fundamentals.</figcaption>
+        </figure>
+      </div>
+
+      <p class="muted" style="margin-top: 0.8rem;">
+        Overall, the regressions confirm that Treasury spreads help explain mortgage spreads, but they do not fully
+        determine them. Mortgage markets embed additional layers of risk, optionality, and institutional behavior on top
+        of the Treasury curve.
+      </p>
+
+      <p class="footer-note">
+        Built as an interactive Q&amp;A site instead of traditional slides —
+        <span>ready for live presentation and GitHub Pages</span>.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Tab switching
+    const tabLinks = document.querySelectorAll(".tab-link");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    tabLinks.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-tab");
+
+        tabLinks.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        panels.forEach((panel) => {
+          if (panel.getAttribute("data-tab") === target) {
+            panel.classList.add("active");
+          } else {
+            panel.classList.remove("active");
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    // Intro 3D animation control
+    window.addEventListener("load", () => {
+      const intro = document.getElementById("intro-3d");
+      const header = document.querySelector("header.top-nav");
+      const main = document.querySelector("main");
+
+      // Give time for the word animation to play, then fade out overlay
+      setTimeout(() => {
+        intro.classList.add("hidden");
+        header.classList.add("show");
+        main.classList.add("show");
+      }, 3000); // ~3 seconds total intro
+    });
+  </script>
+</body>
+</html>
