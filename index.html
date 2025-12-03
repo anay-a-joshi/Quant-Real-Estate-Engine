@@ -569,8 +569,12 @@
       color: var(--accent);
     }
 
+    .names {
+      margin-top: 12px;
+    }
+
     .team-names {
-      margin-top: 1.4rem;
+      margin-top: 5rem;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
@@ -579,17 +583,18 @@
 
     .team-name {
       font-size: 0.95rem;
+      font-weight: bolder;
       color: #e5e7eb;
       opacity: 0;
       transform: translateY(-80px) scale(0.9);
       animation: nameDrop 0.9s forwards cubic-bezier(0.2, 0.9, 0.3, 1.2);
     }
 
-    /* staggered delays: 0.5s apart */
-    .team-name.name-1 { animation-delay: 1.0s; }
-    .team-name.name-2 { animation-delay: 1.5s; }
-    .team-name.name-3 { animation-delay: 2.0s; }
-    .team-name.name-4 { animation-delay: 2.5s; }
+    /* staggered delays: x seconds apart */
+    .team-name.name-1 { animation-delay: 2.0s; }
+    .team-name.name-2 { animation-delay: 3.0s; }
+    .team-name.name-3 { animation-delay: 3.5s; }
+    .team-name.name-4 { animation-delay: 4.0s; }
 
     @keyframes nameDrop {
       0% {
@@ -613,7 +618,7 @@
       pointer-events: none;
       background: radial-gradient(circle at center, rgba(255,255,255,0.9), transparent 60%);
       opacity: 0;
-      animation: screenBreak 3.4s forwards ease-out;
+      animation: screenBreak 2.1s forwards ease-out;
     }
 
     @keyframes screenBreak {
@@ -735,6 +740,44 @@
     to   { background-position: 18px 0; }
   }
 
+  .page-footer {
+    max-width: 1120px;
+    margin: 1.5rem auto 2rem;
+    padding: 0.9rem 1.4rem;
+    border-radius: 1rem;
+    background: radial-gradient(circle at top left, #020617, #020617);
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
+    text-align: center;
+    font-size: 0.85rem;
+    color: #9ca3af;
+  }
+
+  .page-footer strong {
+    font-weight: 700;
+  }
+
+  .anay-highlight {
+    font-weight: 700;
+    text-decoration: underline;
+
+    /* Gradient text */
+    background: linear-gradient(90deg, #ec4899, #38bdf8);
+
+    /* Vendor-prefixed background-clip */
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+
+    /* Vendor-prefixed text fill */
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    color: transparent;
+
+    /* Glow effect */
+    text-shadow: 0 0 10px rgba(236,72,153,0.65);
+  }
+
 
     @media (max-width: 768px) {
       main {
@@ -792,7 +835,7 @@
           <div class="site-title-text">
             <h1>Real Estate: A Fixed-Income Asset</h1>
             <p>FIN 7037 · Fixed Income Term Project</p>
-            <p> Anay Abhijit Joshi; Dhruv Patel; Sowmya Laya Devidi; Martin Ansong</p>
+            <p class="names"> Anay Abhijit Joshi; Dhruv Patel; Sowmya Laya Devidi; Martin Ansong</p>
           </div>
         </div>
       </div>
@@ -882,10 +925,29 @@
         </figure>
       </div>
 
-      <p class="footer-note">
-        Use the tabs above (Q1–Q6) to jump directly to each question’s answer —
-        <span>like slides, but on the web</span>.
-      </p>
+      <!-- <p style="text-align:center; font-size:0.9rem; color:#9ca3af;">
+        Developed by 
+        <span class="anay-highlight">Anay Abhijit Joshi</span>
+        - Time-Series Analytics, Quantitative & Yield-Curve Modeling, and Fixed-Income Visualization Engine
+      </p> -->
+
+
+<style>
+  .anay-highlight {
+    font-weight: 700;
+    text-decoration: underline;
+    color: #fff;
+    animation: glowPulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%   { text-shadow: 0 0 6px rgba(236,72,153,0.4); }
+    50%  { text-shadow: 0 0 14px rgba(236,72,153,0.9); }
+    100% { text-shadow: 0 0 6px rgba(236,72,153,0.4); }
+  }
+</style>
+
+
     </section>
 
     <!-- Q1 TAB -->
@@ -1501,6 +1563,12 @@
       </p>
     </section>
   </main>
+
+  <footer class="page-footer">
+    Developed by 
+    <span class="anay-highlight">Anay Abhijit Joshi</span>
+    (Time-Series Analytics, Quantitative &amp; Yield-Curve Modeling, and Fixed-Income Visualization Engine)
+  </footer>
 
   <!-- Image Popup Modal -->
   <div id="img-modal" class="img-modal">
