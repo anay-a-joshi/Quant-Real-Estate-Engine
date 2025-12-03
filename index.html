@@ -569,6 +569,76 @@
       color: var(--accent);
     }
 
+    .team-names {
+      margin-top: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .team-name {
+      font-size: 0.95rem;
+      color: #e5e7eb;
+      opacity: 0;
+      transform: translateY(-80px) scale(0.9);
+      animation: nameDrop 0.9s forwards cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+
+    /* staggered delays: 0.5s apart */
+    .team-name.name-1 { animation-delay: 1.0s; }
+    .team-name.name-2 { animation-delay: 1.5s; }
+    .team-name.name-3 { animation-delay: 2.0s; }
+    .team-name.name-4 { animation-delay: 2.5s; }
+
+    @keyframes nameDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-80px) scale(0.9);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(10px) scale(1.03);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* screen "breaking" / flash + shake */
+    #screen-flash {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.9), transparent 60%);
+      opacity: 0;
+      animation: screenBreak 3.4s forwards ease-out;
+    }
+
+    @keyframes screenBreak {
+      0%, 70% {
+        opacity: 0;
+        transform: none;
+      }
+      78% {
+        opacity: 0.7;
+        transform: scale(1.03) rotate(0.5deg);
+      }
+      82% {
+        opacity: 0.4;
+        transform: scale(0.98) rotate(-0.6deg);
+      }
+      88% {
+        opacity: 0.6;
+        transform: scale(1.02) rotate(0.4deg);
+      }
+      100% {
+        opacity: 0;
+        transform: none;
+      }
+    }
+
     /* Image Modal */
     .img-modal {
       display: none;
@@ -606,6 +676,65 @@
     .close-modal:hover {
       opacity: 0.7;
     }
+  /* --- Train-track animated border for tabs --- */
+  /* Base style */
+  .tab-link {
+    position: relative;
+    overflow: visible;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  /* Hover on non-active tabs */
+  .tab-link:not(.active):hover {
+    background: rgba(255,255,255,0.08); /* soft gray/white tint */
+    color: #f9fafb; /* slightly brighter text */
+    border-color: rgba(148, 163, 184, 0.45); /* same border */
+  }
+
+  .tab-link.active {
+  background: radial-gradient(circle at top left, #1d283a, #020617);
+  color: #f9fafb;
+  border-color: transparent;
+  }
+
+  /* Active tab animation */
+  .tab-link.active::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+
+    background: linear-gradient(
+      90deg,
+      #ec4899 0 25%,
+      transparent 25% 50%,
+      #ec4899 50% 75%,
+      transparent 75% 100%
+    );
+    background-size: 18px 2px;
+    background-repeat: repeat;
+
+    /* masking to show only border ring */
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: track-move 0.6s linear infinite;
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.45);
+  }
+
+  /* train-track movement */
+  @keyframes track-move {
+    from { background-position: 0 0; }
+    to   { background-position: 18px 0; }
+  }
+
 
     @media (max-width: 768px) {
       main {
@@ -642,6 +771,16 @@
     <div class="intro-sub">
       FIN 7037 · Fixed Income Term Project
     </div>
+
+    <div class="team-names">
+      <span class="team-name name-1">Anay Abhijit Joshi</span>
+      <span class="team-name name-2">Dhruv Patel</span>
+      <span class="team-name name-3">Sowmya Laya Devidi</span>
+      <span class="team-name name-4">Martin Ansong</span>
+    </div>
+
+    <!-- fake screen-break flash -->
+    <div id="screen-flash"></div>
   </div>
 
   <!-- HEADER + TABS -->
@@ -699,7 +838,7 @@
         </div>
         <div class="slide-badge">
           <span class="dot"></span>
-          Intro
+          Introduction
         </div>
       </div>
 
@@ -1404,7 +1543,7 @@
         intro.classList.add("hidden");
         header.classList.add("show");
         main.classList.add("show");
-      }, 3000); // ~3 seconds total intro
+      }, 10000); // enough time for grabbing attention
     });
 
     // IMAGE MODAL LOGIC
