@@ -157,17 +157,51 @@
     .logo-orb {
       width: 32px;
       height: 32px;
+      margin-right: 32px;
       border-radius: 999px;
       background: radial-gradient(circle, #e879f9, #ec4899);
       box-shadow: 0 0 18px rgba(236, 72, 153, 0.85);
     }
 
     .site-title-text h1 {
+      /* margin-left: 29px; */
       font-size: clamp(1.9rem, 3vw, 2.4rem);
       margin: 0;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+
+    .resource-icons {
+      display: flex;
+      gap: 1.1rem;
+      margin-left: 32px;
+      align-items: center;
+    }
+
+    .resource-icons img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      opacity: 0.95;
+      border-radius: 999px;   
+      padding: 4px;           
+      background: #f9fafb;     
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .resource-icons img:hover {
+      opacity: 1;
+      transform: scale(1.15);
+      box-shadow: 0 0 10px rgba(236,72,153,0.7);  /* ✅ glow effect */
+    }
+
+
+    .site-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
 
     .site-title-text p {
       margin: 0.1rem 0 0;
@@ -837,6 +871,20 @@
             <p>FIN 7037 · Fixed Income Term Project</p>
             <p class="names"> Anay Abhijit Joshi; Dhruv Patel; Sowmya Laya Devidi; Martin Ansong</p>
           </div>
+          <div class="resource-icons">
+            <a href="https://github.com/anay-a-joshi/Quant-Real-Estate-Engine" target="_blank" class="icon-link" title="GitHub Code/Repository">
+              <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" />
+            </a>
+
+            <a href="https://github.com/anay-a-joshi/Quant-Real-Estate-Engine/blob/main/FIN7037_Fixed%20Income_TERM%20PROJECT.xlsx" target="_blank" class="icon-link" title="Calculations">
+              <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="Excel" />
+            </a>
+
+            <a href="https://github.com/anay-a-joshi/Quant-Real-Estate-Engine/blob/main/FIN7037_Fixed%20Income_TERM%20PROJECT.pdf" target="_blank" class="icon-link" title="Report">
+              <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF" />
+            </a>
+          </div>
+
         </div>
       </div>
     </div>
@@ -916,11 +964,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="images/tampa-skyline.jpg" alt="Tampa skyline" loading="lazy" />
+          <img src="images/tampa-skyline.jpg" alt="Tampa skyline" data-full="images/tampa-skyline.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Tampa, Florida - the metro area for the selected property.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/real-estate.jpg" alt="Real estate investment concept" loading="lazy" />
+          <img src="images/real-estate.jpg" alt="Real estate investment concept" data-full="images/real-estate.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Residential real estate viewed through a fixed-income, cash-flow lens.</figcaption>
         </figure>
       </div>
@@ -1005,11 +1053,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="images/single-family-home.jpg" alt="Single-family home in Tampa" loading="lazy" />
+          <img src="images/single-family-home.jpg" alt="Single-family home in Tampa" data-full="images/single-family-home.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Illustrative single-family home similar to the type analyzed in this project.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/image.jpg" alt="Suburban neighborhood" loading="lazy" />
+          <img src="images/image.jpg" alt="Suburban neighborhood" data-full="images/image.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Neighborhood characteristics: schools, jobs, and amenities support demand.</figcaption>
         </figure>
       </div>
@@ -1103,11 +1151,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="images/mortgage-document.jpg" alt="Mortgage documents" loading="lazy" />
+          <img src="images/mortgage-document.jpg" alt="Mortgage documents" data-full="images/mortgage-document.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Mortgage paperwork and closing costs associated with financing the property.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/rental-agreement.jpg" alt="Rental agreement" loading="lazy" />
+          <img src="images/rental-agreement.jpg" alt="Rental agreement" data-full="images/rental-agreement.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Rental contracts and tenant income drive the cash-flow side of the analysis.</figcaption>
         </figure>
       </div>
@@ -1187,11 +1235,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="images/stock-market.jpg" alt="Stock market chart" loading="lazy" />
+          <img src="images/stock-market.jpg" alt="Stock market chart"data-full="images/stock-market.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Comparing real estate IRR to long-run equity market returns.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/bond-market.jpg" alt="Bond market graph" loading="lazy" />
+          <img src="images/bond-market.jpg" alt="Bond market graph" data-full="images/bond-market.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Long-term bonds offer lower returns but with different risk and liquidity profiles.</figcaption>
         </figure>
       </div>
@@ -1264,11 +1312,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="images/mortgage-backed-securities.jpg" alt="Mortgage-backed securities" loading="lazy" />
+          <img src="images/mortgage-backed-securities.jpg" alt="Mortgage-backed securities" data-full="images/mortgage-backed-securities.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Securitization transforms pools of mortgages into tradable MBS for investors.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/financial-crisis.jpg" alt="Financial crisis" loading="lazy" />
+          <img src="images/financial-crisis.jpg" alt="Financial crisis" data-full="images/financial-crisis.jpg" class="clickable-img" loading="lazy" />
           <figcaption>The 2007–2009 crisis highlighted the risks of highly leveraged housing finance.</figcaption>
         </figure>
       </div>
@@ -1384,12 +1432,40 @@
       </div>
 
       <div class="image-row">
+        <!-- Q5 Graph 1 -->
         <figure class="image-card">
-          <img src="images/treasury-bonds.jpg" alt="Treasury bonds" loading="lazy" />
+          <img
+            src="images/1-10.png"
+            data-full="images/1-10.png"
+            alt="Treasury Rates and Spreads - Graph 1"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            Time-series plot of 1Y, 10Y, 30Y Treasuries and spreads used in Question 5 analysis.
+          </figcaption>
+        </figure>
+
+        <!-- Q5 Graph 2 -->
+        <figure class="image-card">
+          <img
+            src="images/1-30.png"
+            data-full="images/1-30.png"
+            alt="Yield Curve Spread Dynamics - Graph 2"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            Yield curve dynamics (10Y–1Y and 30Y–1Y spreads) covering 2005–2025.
+          </figcaption>
+        </figure>
+
+        <figure class="image-card">
+          <img src="images/treasury-bonds.jpg" alt="Treasury bonds" data-full="images/treasury-bonds.jpg" class="clickable-img" loading="lazy" />
           <figcaption>U.S. Treasury yields anchor broader interest-rate conditions, including mortgages.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="images/mortgage-housing-market.jpg" alt="Housing market" loading="lazy" />
+          <img src="images/mortgage-housing-market.jpg" alt="Housing market" data-full="images/mortgage-housing-market.jpg" class="clickable-img" loading="lazy" />
           <figcaption>Higher mortgage rates feed through to affordability and housing prices.</figcaption>
         </figure>
       </div>
@@ -1420,8 +1496,9 @@
       </div>
 
       <p class="muted" style="margin-top: 0.8rem;">
-        Because mortgage rates are closely benchmarked to long-term Treasury yields plus a spread, the shape and level
-        of the yield curve directly influence housing affordability, construction, and home prices.
+        Because mortgage rates are closely benchmarked to long-term Treasury yields plus a spread,
+        the shape and level of the yield curve directly influence housing affordability, construction,
+        and home prices.
       </p>
     </section>
 
