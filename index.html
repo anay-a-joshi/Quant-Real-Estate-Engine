@@ -569,6 +569,44 @@
       color: var(--accent);
     }
 
+    /* Image Modal */
+    .img-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 40px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.85);
+    }
+
+    .img-modal img {
+      margin: auto;
+      display: block;
+      max-width: 85%;
+      max-height: 85%;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.4);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 25px;
+      right: 45px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .close-modal:hover {
+      opacity: 0.7;
+    }
+
     @media (max-width: 768px) {
       main {
         padding-inline: 1rem;
@@ -615,6 +653,7 @@
           <div class="site-title-text">
             <h1>Real Estate: A Fixed-Income Asset</h1>
             <p>FIN 7037 · Fixed Income Term Project</p>
+            <p> Anay Abhijit Joshi; Dhruv Patel; Sowmya Laya Devidi; Martin Ansong</p>
           </div>
         </div>
       </div>
@@ -622,25 +661,25 @@
     <div class="tab-nav-wrapper">
       <div class="tab-nav">
         <button class="tab-link active" data-tab="intro">
-          <span class="badge">Start</span> Intro
+          <span class="badge">Start</span> Introduction
         </button>
         <button class="tab-link" data-tab="q1">
-          <span class="badge">Q1</span> Property Choice
+          <span class="badge">Question 1</span> Property Choice
         </button>
         <button class="tab-link" data-tab="q2">
-          <span class="badge">Q2</span> Mortgage & Cash Flows
+          <span class="badge">Question 2</span> Mortgage & Cash Flows
         </button>
         <button class="tab-link" data-tab="q3">
-          <span class="badge">Q3</span> Returns vs Stocks/Bonds
+          <span class="badge">Question 3</span> Returns vs Stocks/Bonds
         </button>
         <button class="tab-link" data-tab="q4">
-          <span class="badge">Q4</span> Fannie & Freddie / MBS
+          <span class="badge">Question 4</span> Fannie & Freddie / MBS
         </button>
         <button class="tab-link" data-tab="q5">
-          <span class="badge">Q5</span> Treasury Rates & Spreads
+          <span class="badge">Question 5</span> Treasury Rates & Spreads
         </button>
         <button class="tab-link" data-tab="q6">
-          <span class="badge">Q6</span> Mortgage Spreads & Regression
+          <span class="badge">Question 6</span> Mortgage Spreads & Regression
         </button>
       </div>
     </div>
@@ -1024,11 +1063,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?mortgage,backed,securities" alt="Mortgage-backed securities" loading="lazy" />
+          <img src="images/mortgage-backed-securities.jpg" alt="Mortgage-backed securities" loading="lazy" />
           <figcaption>Securitization transforms pools of mortgages into tradable MBS for investors.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?financial,crisis" alt="Financial crisis" loading="lazy" />
+          <img src="images/financial-crisis.jpg" alt="Financial crisis" loading="lazy" />
           <figcaption>The 2007–2009 crisis highlighted the risks of highly leveraged housing finance.</figcaption>
         </figure>
       </div>
@@ -1145,11 +1184,11 @@
 
       <div class="image-row">
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?treasury,bonds" alt="Treasury bonds" loading="lazy" />
+          <img src="images/treasury-bonds.jpg" alt="Treasury bonds" loading="lazy" />
           <figcaption>U.S. Treasury yields anchor broader interest-rate conditions, including mortgages.</figcaption>
         </figure>
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?housing,market" alt="Housing market" loading="lazy" />
+          <img src="images/mortgage-housing-market.jpg" alt="Housing market" loading="lazy" />
           <figcaption>Higher mortgage rates feed through to affordability and housing prices.</figcaption>
         </figure>
       </div>
@@ -1253,15 +1292,63 @@
       </div>
 
       <div class="image-row">
+        <!-- Graph 1: Treasury term spreads -->
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?data,analysis" alt="Data analysis" loading="lazy" />
-          <figcaption>Regression links mortgage spreads to the shape of the Treasury yield curve.</figcaption>
+          <img
+            src="images/treasury-term-spreads.png"
+            data-full="images/treasury-term-spreads.png"
+            alt="Line chart of 10Y–1Y and 30Y–1Y Treasury term spreads over time"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            Treasury term spreads (10Y–1Y and 30Y–1Y) used as explanatory variables in the regressions.
+          </figcaption>
         </figure>
+
+        <!-- Graph 2: Mortgage rate spreads -->
         <figure class="image-card">
-          <img src="https://source.unsplash.com/featured/?analytics,chart" alt="Analytics chart" loading="lazy" />
-          <figcaption>Mortgage pricing reflects both rate expectations and housing-market fundamentals.</figcaption>
+          <img
+            src="images/mortgage-rates-over-time.png"
+            data-full="images/mortgage-rates-over-time.png"
+            alt="Line chart of 15Y–5/1 ARM and 30Y–15Y mortgage spreads over time"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            Mortgage rate spreads (15Y–5/1 ARM and 30Y–15Y) that are modeled in the regressions.
+          </figcaption>
+        </figure>
+
+        <!-- OLS 1: 15Y – 5/1 ARM -->
+        <figure class="image-card">
+          <img
+            src="images/15-5.png"
+            data-full="images/15-5.png"
+            alt="OLS regression output for the 15Y–5/1 ARM spread on Treasury spreads"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            OLS regression: 15Y–5/1 ARM spread on the 10Y–1Y and 30Y–1Y Treasury spreads.
+          </figcaption>
+        </figure>
+
+        <!-- OLS 2: 30Y – 15Y -->
+        <figure class="image-card">
+          <img
+            src="images/30-15.png"
+            data-full="images/30-15.png"
+            alt="OLS regression output for the 30Y–15Y spread on Treasury spreads"
+            class="clickable-img"
+            loading="lazy"
+          />
+          <figcaption>
+            OLS regression: 30Y–15Y spread on the 10Y–1Y and 30Y–1Y Treasury spreads.
+          </figcaption>
         </figure>
       </div>
+
 
       <p class="muted" style="margin-top: 0.8rem;">
         Overall, the regressions confirm that Treasury spreads help explain mortgage spreads, but they do not fully
@@ -1275,6 +1362,12 @@
       </p>
     </section>
   </main>
+
+  <!-- Image Popup Modal -->
+  <div id="img-modal" class="img-modal">
+    <span class="close-modal">&times;</span>
+    <img id="modal-img" class="modal-content">
+  </div>
 
   <script>
     // Tab switching
@@ -1313,6 +1406,29 @@
         main.classList.add("show");
       }, 3000); // ~3 seconds total intro
     });
+
+    // IMAGE MODAL LOGIC
+    const modal = document.getElementById("img-modal");
+    const modalImg = document.getElementById("modal-img");
+    const closeBtn = document.querySelector(".close-modal");
+
+    document.querySelectorAll(".clickable-img").forEach(img => {
+      img.addEventListener("click", () => {
+        modal.style.display = "block";
+        modalImg.src = img.getAttribute("data-full");
+      });
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Close when clicking outside image
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    });
   </script>
+
+
 </body>
 </html>
